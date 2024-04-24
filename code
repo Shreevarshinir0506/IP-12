@@ -1,0 +1,87 @@
+demo.html
+
+<html>
+    <body style="background-color: darkblue;">
+    <center style="color: yellow;">
+    <h1>Product Details</h1>
+    Code: <input type="text" id="t1"><br>
+    <br>
+    <button onclick="fun()">Click Here</button><br>
+    <div id="one"></div>
+    <div id="two"></div>
+    <div id="three"></div>
+    <div id="four"></div>
+    </center>
+</body>
+</html>
+<script>
+    function fun()
+    {
+        let obj=new XMLHttpRequest();
+        let t1=document.getElementById("t1").value;
+        let test;
+        //alert(t1);
+        obj.onreadystatechange = function()
+        {
+         if(obj.readyState==4 && obj.status==200)
+         {
+          let data = obj.responseXML;
+          let product = data.getElementsByTagName("product");
+          //alert(product.length); 
+          for(i=0;i<product.length;i++)
+          {
+          if(t1.match(product[i].getElementsByTagName("code")[0].childNodes[0].nodeValue))
+          {
+            test = product[i].getElementsByTagName("name")[0].childNodes[0].nodeValue;
+            ton = product[i].getElementsByTagName("price")[0].childNodes[0].nodeValue;
+            fam = product[i].getElementsByTagName("stock")[0].childNodes[0].nodeValue;
+            ast =product[i].getElementsByTagName("description")[0].childNodes[0].nodeValue;
+            
+          }
+        }
+        document.getElementById("one").innerHTML ="Name of the product:"+test;"<br>"
+        document.getElementById("two").innerHTML ="Price of the product:"+ton;"<br>"
+        document.getElementById("three").innerHTML ="Stock of the product:"+fam;"<br>"
+        document.getElementById("four").innerHTML ="Description:"+ast;
+        }
+       
+       
+       }
+    obj.open("GET","product.xml",true);
+    obj.send();
+}
+</script>
+
+product.xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<products>
+  <product>
+    <code>01</code>
+    <name>Laptop XYZ</name>
+    <description> High-performance laptop with the latest processor and graphics card.</description>
+    <price>$999.99</price>
+    <stock>50</stock>
+  </product>
+  <product>
+    <code>02</code>
+    <name>Smartphone ABC</name>
+    <description>Advanced smartphone with a large display, dual cameras, and long battery life.</description>
+    <price>$699.99</price>
+    <stock>100</stock>
+  </product>
+  <product>
+    <code>03</code>
+    <name>Smartwatch 123</name>
+    <description> Stylish smartwatch with fitness tracking features, heart rate monitor, and notifications.</description>
+    <price> $199.99</price>
+    <stock>75</stock>
+  </product>
+  <product>
+    <code>04</code>
+    <name> Wireless Headphones PQR</name>
+    <description>High-quality wireless headphones with noise-canceling technology and long battery life.</description>
+    <price> $149.99</price>
+    <stock>120</stock>
+  </product>
+</products>
